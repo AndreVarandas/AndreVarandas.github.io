@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "workbox": "npx workbox generateSW workbox-config.js",
-    "build": "gridsome build && yarn workbox",
+    "build": "yarn workbox && gridsome build",
     "develop": "gridsome develop",
     "explore": "gridsome explore",
     "predeploy": "yarn build",
