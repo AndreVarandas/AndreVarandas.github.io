@@ -5,5 +5,5 @@
 module.exports = {
   globDirectory: "dist/",
   globPatterns: ["**/*.{html,css,js,png,json}"],
-  swDest: "static/sw.js"
+  swDest: "dist/sw.js"
 };

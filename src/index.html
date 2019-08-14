@@ -2,6 +2,12 @@
 <html ${htmlAttrs}>
   <head>
     ${head}
+    <meta name="theme-color" content="#0D2538" />
+    <!--
+      manifest.json provides metadata used when your web app is added to the
+      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
+    -->
+    <link rel="manifest" href="/manifest.json" />
   </head>
   <body ${bodyAttrs}>
     <script>
@@ -11,32 +17,38 @@
         function setTheme(newTheme) {
           window.__theme = newTheme;
           preferredTheme = newTheme;
-          document.body.setAttribute('data-theme', newTheme);
+          document.body.setAttribute("data-theme", newTheme);
           window.__onThemeChange(newTheme);
         }
 
         var preferredTheme;
         try {
-          preferredTheme = localStorage.getItem('theme');
-        } catch (err) { }
+          preferredTheme = localStorage.getItem("theme");
+        } catch (err) {}
 
         window.__setPreferredTheme = function(newTheme) {
           setTheme(newTheme);
           try {
-            localStorage.setItem('theme', newTheme);
+            localStorage.setItem("theme", newTheme);
           } catch (err) {}
-        }
+        };
 
-        var darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        var darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
         darkQuery.addListener(function(e) {
-          window.__setPreferredTheme(e.matches ? 'dark' : 'light')
+          window.__setPreferredTheme(e.matches ? "dark" : "light");
         });
 
-        setTheme(preferredTheme || (darkQuery.matches ? 'dark' : 'light'));
+        setTheme(preferredTheme || (darkQuery.matches ? "dark" : "light"));
       })();
     </script>
 
-    ${app}
-    ${scripts}
+    ${app} ${scripts}
+    <script async>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function() {
+          navigator.serviceWorker.register("/sw.js");
+        });
+      }
+    </script>
   </body>
 </html>
